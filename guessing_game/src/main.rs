@@ -1,6 +1,8 @@
+// use core::num;
 use rand::Rng;
-use std::io;
 use std::cmp::Ordering;
+use std::io;
+use colored::*;
 
 fn main() {
     print!("Guess the number between 1 and 100!\n");
@@ -13,7 +15,10 @@ fn main() {
             .read_line(&mut input_msg)
             .expect("Cannot read number");
 
-        let input_num = input_msg.trim().parse::<u32>().expect("Not a number");
+        let input_num: u32 = match input_msg.trim().parse() {
+            Ok(num) => num,
+            Err(_) => continue,
+        };
 
         // if input_num == random_num {
         //     print!("You guessed it right!");
@@ -23,14 +28,12 @@ fn main() {
         // }
 
         match input_num.cmp(&random_num) {
-            Ordering::Less => print!("Too small! Try again.\n"),
-            Ordering::Greater => print!("Too big! Try again.\n"),
+            Ordering::Less => println!("{}","Too small! Try again.\n".red()),
+            Ordering::Greater => println!("{}","Too big".red()),
             Ordering::Equal => {
-                print!("You guessed it right!\n");
+                println!("{}","You guessed it right!\n".blue());
                 break;
             }
         }
-
-
     }
 }
