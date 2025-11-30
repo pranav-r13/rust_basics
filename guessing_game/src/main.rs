@@ -1,5 +1,6 @@
 use rand::Rng;
 use std::io;
+use std::cmp::Ordering;
 
 fn main() {
     print!("Guess the number between 1 and 100!\n");
@@ -14,11 +15,22 @@ fn main() {
 
         let input_num = input_msg.trim().parse::<u32>().expect("Not a number");
 
-        if input_num == random_num {
-            print!("You guessed it right!");
-            break;
-        } else {
-            print!("Wrong guess, try again!\n");
+        // if input_num == random_num {
+        //     print!("You guessed it right!");
+        //     break;
+        // } else {
+        //     print!("Wrong guess, try again!\n");
+        // }
+
+        match input_num.cmp(&random_num) {
+            Ordering::Less => print!("Too small! Try again.\n"),
+            Ordering::Greater => print!("Too big! Try again.\n"),
+            Ordering::Equal => {
+                print!("You guessed it right!\n");
+                break;
+            }
         }
+
+
     }
 }
